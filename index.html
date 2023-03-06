@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cadastro de Usuário</title>
+</head>
+<body>
+	<h1>Cadastro de Usuário</h1>
+	<form id="cadastro-form">
+		<label for="nome">Nome:</label>
+		<input type="text" id="nome" name="nome"><br><br>
+
+		<label for="sobrenome">Sobrenome:</label>
+		<input type="text" id="sobrenome" name="sobrenome"><br><br>
+
+
+		<button type="submit">Enviar</button>
+	</form>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+	$("#cadastro-form").submit(function(event) {
+		// Evita que o formulário seja enviado via requisição HTTP
+		event.preventDefault();
+
+		// Coleta os dados do formulário
+		var nome = $("#nome").val();
+		var sobrenome = $("#sobrenome").val();
+
+        // Monta o objeto com os dados para enviar à API
+		var dados = {
+			"nome": nome,
+			"sobrenome": sobrenome,
+
+		};
+
+		// Faz a requisição AJAX para enviar os dados à API
+		$.ajax({
+			url: "https://ndota6ugq1.execute-api.us-east-1.amazonaws.com/deploy/dev",
+			type: "POST",
+			data: JSON.stringify(dados),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function() {
+				alert("Cadastro realizado com sucesso!");
+				$("#cadastro-form")[0].reset(); // Limpa o formulário após o cadastro
+			},
+			error: function() {
+				alert("Ocorreu um erro ao realizar o cadastro. Tente novamente.");
+			}
+		});
+	});
+});
+</script>
